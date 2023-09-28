@@ -22,7 +22,7 @@ Welcome to NEOSENS, a research project dedicated to evaluating the sensitivity o
 1. Clone the repository
 
     ```bash
-    git clone https://github.com/jaywyawhare/neosens.git
+    git clone https://github.com/jaywyawhare/NEOSENS.git
     ```
 1. Install the requirements
 
@@ -36,4 +36,4 @@ Welcome to NEOSENS, a research project dedicated to evaluating the sensitivity o
 
 ## License
 
-This project is licensed under the DBaJ-NC-CFL License - see the [LICENSE](./LICENCE) file for details.
+This project is licensed under the DBaJ-NC-CFL License - see the [LICENSE](./LICENCE.md) file for details.
