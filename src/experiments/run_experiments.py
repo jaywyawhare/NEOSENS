@@ -6,35 +6,38 @@ from src.models import tf_models, sklearn_models, model_factory
 from sklearn.metrics import mean_squared_error
 import torch
 import inspect
+from typing import Callable, Dict, Tuple
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def train_and_evaluate_tf(
-    model_fn,
-    model_name,
-    X_train,
-    y_train,
-    X_test,
-    y_test,
-    noise_func,
-    noise_level,
-    epochs,
-):
+    model_fn: Callable,
+    model_name: str,
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+    noise_func: Callable,
+    noise_level: float,
+    epochs: int,
+) -> Tuple[float, float, float]:
     """
     Train and evaluate a TensorFlow model.
 
     Args:
-        model_fn (callable): Function to create the model.
+        model_fn (Callable): Function to create the model.
         model_name (str): Name of the model.
         X_train (np.ndarray): Training data.
         y_train (np.ndarray): Training labels.
         X_test (np.ndarray): Test data.
         y_test (np.ndarray): Test labels.
-        noise_func (callable): Function to add noise.
+        noise_func (Callable): Function to add noise.
         noise_level (float): Noise level.
         epochs (int): Number of training epochs.
 
     Returns:
-        tuple: Clean loss, noisy loss, and delta.
+        Tuple[float, float, float]: Clean loss, noisy loss, and delta.
     """
     print(f"\nTraining {model_name} ...")
     model = model_fn(X_train.shape[1:])
@@ -51,8 +54,29 @@ def train_and_evaluate_tf(
 
 
 def train_and_evaluate_sklearn(
-    model, X_train, y_train, X_test, y_test, noise_func, noise_level
-):
+    model: Callable,
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+    noise_func: Callable,
+    noise_level: float,
+) -> Tuple[float, float, float]:
+    """
+    Train and evaluate a scikit-learn model.
+
+    Args:
+        model (Callable): The scikit-learn model.
+        X_train (np.ndarray): Training data.
+        y_train (np.ndarray): Training labels.
+        X_test (np.ndarray): Test data.
+        y_test (np.ndarray): Test labels.
+        noise_func (Callable): Function to add noise.
+        noise_level (float): Noise level.
+
+    Returns:
+        Tuple[float, float, float]: Clean loss, noisy loss, and delta.
+    """
     n_train = X_train.shape[0]
     n_test = X_test.shape[0]
     X_train_flat = X_train.reshape((n_train, -1))
@@ -72,14 +96,29 @@ def train_and_evaluate_sklearn(
 
 
 def run_experiment(
-    dataset_name,
-    data_func,
-    window_size,
-    forecast_horizon,
-    noise_func,
-    noise_level,
-    epochs,
-):
+    dataset_name: str,
+    data_func: Callable,
+    window_size: int,
+    forecast_horizon: int,
+    noise_func: Callable,
+    noise_level: float,
+    epochs: int,
+) -> Dict[str, Dict[str, Dict[str, float]]]:
+    """
+    Run an experiment with the given dataset and models.
+
+    Args:
+        dataset_name (str): Name of the dataset.
+        data_func (Callable): Function to load the data.
+        window_size (int): Size of the sliding window.
+        forecast_horizon (int): Forecast horizon.
+        noise_func (Callable): Function to add noise.
+        noise_level (float): Noise level.
+        epochs (int): Number of training epochs.
+
+    Returns:
+        Dict[str, Dict[str, Dict[str, float]]]: Results of the experiment.
+    """
     print(f"\n==== Dataset: {dataset_name} ====")
     data = data_func()
     X, y = create_sliding_windows(data, window_size, forecast_horizon)
@@ -97,7 +136,6 @@ def run_experiment(
 
     results = {"TF": {}, "SK": {}}
 
-    # TensorFlow models (including those from model_factory)
     for name, model_fn in {**tf_models.__dict__, **model_factory.__dict__}.items():
         if (
             callable(model_fn)
