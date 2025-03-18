@@ -8,13 +8,14 @@ from src.data.datasets import (
     generate_sine_data,
 )
 from src.utils.noise import add_complex_noise
+from src.models import model_factory
 
 
 def main():
     window_size = 50
     forecast_horizon = 1
     noise_level = 0.1
-    epochs = 1
+    epochs = 20
 
     dataset_funcs = {
         "Lorenz": generate_lorenz_data,
