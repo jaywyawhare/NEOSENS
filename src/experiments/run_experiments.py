@@ -136,32 +136,28 @@ def run_experiment(
 
     results = {"TF": {}, "SK": {}}
 
-    for name, model_fn in model_factory.__dict__.items():
-        if (
-            callable(model_fn)
-            and not name.startswith("__")
-            and inspect.isfunction(model_fn)
-        ):
-            try:
-                print(f"\nEvaluating TF model: {name}")
-                mse_clean, mse_noisy, delta = train_and_evaluate_tf(
-                    model_fn,
-                    name,
-                    X_train,
-                    y_train,
-                    X_test,
-                    y_test,
-                    add_complex_noise,
-                    noise_level,
-                    epochs,
-                )
-                results["TF"][name] = {
-                    "Clean": mse_clean,
-                    "Noisy": mse_noisy,
-                    "Delta": delta,
-                }
-            except Exception as e:
-                print(f"Error evaluating TF model {name}: {e}")
+    tf_models = model_factory.create_all_models(X_train.shape[1:])
+    for name, model in tf_models.items():
+        try:
+            print(f"\nEvaluating TF model: {name}")
+            mse_clean, mse_noisy, delta = train_and_evaluate_tf(
+                lambda _: model, 
+                name,
+                X_train,
+                y_train,
+                X_test,
+                y_test,
+                add_complex_noise,
+                noise_level,
+                epochs,
+            )
+            results["TF"][name] = {
+                "Clean": mse_clean,
+                "Noisy": mse_noisy,
+                "Delta": delta,
+            }
+        except Exception as e:
+            print(f"Error evaluating TF model {name}: {e}")
 
     sk_models = sklearn_models.create_sklearn_models(y.shape[1])
     for name, model in sk_models.items():

@@ -1,6 +1,6 @@
 import tensorflow as tf
 from .tf_models import CTRNN, ODEBlock
-from typing import Tuple
+from typing import Tuple, Dict
 
 
 def create_simple_nn(input_shape: Tuple[int]) -> tf.keras.Model:
@@ -200,3 +200,26 @@ def create_neural_ode(input_shape: Tuple[int]) -> tf.keras.Model:
     x = tf.keras.layers.Flatten()(x)
     outputs = tf.keras.layers.Dense(3)(x)
     return tf.keras.Model(inputs=inputs, outputs=outputs)
+
+
+def create_all_models(input_shape: Tuple[int]) -> Dict[str, tf.keras.Model]:
+    """
+    Create all models from the factory.
+
+    Args:
+        input_shape (Tuple[int]): Input shape.
+
+    Returns:
+        Dict[str, tf.keras.Model]: Dictionary of model names and their instances.
+    """
+    return {
+        "SimpleNN": create_simple_nn(input_shape),
+        "LSTM": create_lstm(input_shape),
+        "GRU": create_gru(input_shape),
+        "CNN": create_cnn(input_shape),
+        "LNN": create_lnn(input_shape),
+        "Transformer": create_transformer(input_shape),
+        "BidirectionalLSTM": create_bidirectional_lstm(input_shape),
+        "TCN": create_tcn(input_shape),
+        "NeuralODE": create_neural_ode(input_shape),
+    }
