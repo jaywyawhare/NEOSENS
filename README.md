@@ -1,38 +1,37 @@
-# NEOSENS: Noise Evaluation of Quantum and Neural Network Output Sensitivity
+# NEOSENS: Noise Evaluation of Neural Network Output Sensitivity
 
 ## Overview
-Welcome to NEOSENS, a research project dedicated to evaluating the sensitivity of various machine learning and deep learning algorithms, Quantum Long Short-Term Memory (QLSTM), and Liquid Neural Networks (LNN) to subtle input perturbations. Our primary goal is to assess the robustness of these paradigms in real-world applications, including surgical robotics, self-driving cars where small input noise should not compromise attention mechanisms, taking inspiration from the resilience of biological systems, like the human brain.
+Welcome to NEOSENS, a project dedicated to evaluating the sensitivity of various machine learning and deep learning algorithms, including Liquid Neural Networks (LNN), to subtle input perturbations. Our primary goal is to assess the robustness of these paradigms in real-world applications, such as surgical robotics and self-driving cars, where small input noise should not compromise attention mechanisms. Inspired by the resilience of biological systems, like the human brain, NEOSENS investigates how AI can maintain stability and performance under noisy conditions.
 
 ## Project Objectives
 
-- **Comparative Analysis**: Conduct an extensive comparative analysis of AI architectures, including Long Short-Term Memory (LSTM), Quantum Long Short-Term Memory (QLSTM), Liquid Neural Networks (LNN), and Simple Neural Networks, in practical contexts.
-- **Sensitivity Evaluation**: Investigate how these architectures respond to subtle input perturbations, resembling challenges encountered in self-driving cars and surgical robotics.
-- **Attention Mechanisms**: Assess the efficacy of attention mechanisms in preserving focus and attention amidst noise, inspired by the intricate neurological attention systems.
+- **Comparative Analysis**: Conduct an extensive comparative analysis of AI architectures, including Long Short-Term Memory (LSTM), Liquid Neural Networks (LNN), and Simple Neural Networks, in practical contexts.
+- **Sensitivity Evaluation**: Investigate how these architectures respond to subtle input perturbations, similar to challenges encountered in self-driving cars and surgical robotics.
+- **Attention Mechanisms**: Assess the efficacy of attention mechanisms in preserving focus amidst noise, inspired by the intricate neurological attention systems.
 - **Application-Oriented Insights**: Generate practical insights into which architecture demonstrates superior noise tolerance without compromising attention mechanisms, making them ideal for safety-critical applications.
 
+## Repository Structure
 
-## Installation
+- **README.md**: Project overview and instructions.
+- **requirements.txt**: List of required Python packages.
+- **setup.py**: Setup script for packaging the project.
+- **src/**: Contains the source code.
+  - **data/**: Functions for dataset generation (Lorenz, Rossler, Mackey‑Glass, Sine).
+  - **models/**: Model definitions (TensorFlow/Keras and scikit‑learn).
+  - **utils/**: Utility functions for noise injection and sliding window creation.
+  - **experiments/**: Script to run experiments and compare model performance.
 
-1. Set up a virtual environment with conda 
+## How to Run
 
-    ```bash
-    conda create -n neosens python=3.7
-    conda activate neosens
-    ```
-1. Clone the repository
-
-    ```bash
-    git clone https://github.com/jaywyawhare/NEOSENS.git
-    ```
-1. Install the requirements
-
+1. Install the required packages:
     ```bash
     pip install -r requirements.txt
     ```
 
-1. Explore the codebase in the code/ directory to access data preprocessing, model implementations, and evaluation scripts.
-
-1. To run experiments and evaluate AI architectures, refer to specific scripts and documentation within the code/ directory.
+2. Run the experiments:
+    ```bash
+    python -m src.experiments.run_experiments
+    ```
 
 ## License
 
