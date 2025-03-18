@@ -17,7 +17,7 @@ class CTRNN(tf.keras.layers.Layer):
     ):
         super(CTRNN, self).__init__(**kwargs)
         self._num_units = num_units
-        self._unfolds = 6
+        self._unfolds = 12
         self._delta_t = 0.1
         self.global_feedback = global_feedback
         self.fix_tau = fix_tau
@@ -37,7 +37,7 @@ class CTRNN(tf.keras.layers.Layer):
         self.W_step = self.add_weight(
             name="W_step",
             shape=(input_dim, self._num_units),
-            initializer="glorot_uniform",
+            initializer=tf.keras.initializers.HeNormal(),
         )
         self.b_step = self.add_weight(
             name="b_step", shape=(self._num_units,), initializer="zeros"
