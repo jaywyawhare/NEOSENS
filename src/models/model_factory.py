@@ -213,10 +213,10 @@ def create_all_models(input_shape: Tuple[int]) -> Dict[str, tf.keras.Model]:
         Dict[str, tf.keras.Model]: Dictionary of model names and their instances.
     """
     return {
-        "SimpleNN": create_simple_nn(input_shape),
-        "LSTM": create_lstm(input_shape),
-        "GRU": create_gru(input_shape),
-        "CNN": create_cnn(input_shape),
+        # "SimpleNN": create_simple_nn(input_shape),
+        # "LSTM": create_lstm(input_shape),
+        # "GRU": create_gru(input_shape),
+        # "CNN": create_cnn(input_shape),
         "LNN": create_lnn(input_shape),
         "Transformer": create_transformer(input_shape),
         "BidirectionalLSTM": create_bidirectional_lstm(input_shape),
