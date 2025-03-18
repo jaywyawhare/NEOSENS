@@ -2,10 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from src.utils.sliding_window import create_sliding_windows
 from src.utils.noise import add_complex_noise
-from src.models import tf_models, sklearn_models
+from src.models import tf_models, sklearn_models, model_factory
 from sklearn.metrics import mean_squared_error
 import torch
 import inspect
+
 
 def train_and_evaluate_tf(
     model_fn,
@@ -18,6 +19,23 @@ def train_and_evaluate_tf(
     noise_level,
     epochs,
 ):
+    """
+    Train and evaluate a TensorFlow model.
+
+    Args:
+        model_fn (callable): Function to create the model.
+        model_name (str): Name of the model.
+        X_train (np.ndarray): Training data.
+        y_train (np.ndarray): Training labels.
+        X_test (np.ndarray): Test data.
+        y_test (np.ndarray): Test labels.
+        noise_func (callable): Function to add noise.
+        noise_level (float): Noise level.
+        epochs (int): Number of training epochs.
+
+    Returns:
+        tuple: Clean loss, noisy loss, and delta.
+    """
     print(f"\nTraining {model_name} ...")
     model = model_fn(X_train.shape[1:])
     model.compile(optimizer="adam", loss="mse")
@@ -28,8 +46,9 @@ def train_and_evaluate_tf(
     delta = loss_noisy - loss_clean
     print(f"{model_name} - Clean Test Loss (MSE): {loss_clean:.4f}")
     print(f"{model_name} - Noisy Test Loss (MSE): {loss_noisy:.4f}")
-    print(f"{model_name} - Delta: {delta:.4f}") 
+    print(f"{model_name} - Delta: {delta:.4f}")
     return loss_clean, loss_noisy, delta
+
 
 def train_and_evaluate_sklearn(
     model, X_train, y_train, X_test, y_test, noise_func, noise_level
@@ -78,7 +97,8 @@ def run_experiment(
 
     results = {"TF": {}, "SK": {}}
 
-    for name, model_fn in tf_models.__dict__.items():
+    # TensorFlow models (including those from model_factory)
+    for name, model_fn in {**tf_models.__dict__, **model_factory.__dict__}.items():
         if (
             callable(model_fn)
             and not name.startswith("__")
@@ -106,7 +126,6 @@ def run_experiment(
                 print(f"Error evaluating TF model {name}: {e}")
 
     sk_models = sklearn_models.create_sklearn_models(y.shape[1])
-
     for name, model in sk_models.items():
         print(f"\nEvaluating SK model: {name}")
         mse_clean, mse_noisy, delta = train_and_evaluate_sklearn(

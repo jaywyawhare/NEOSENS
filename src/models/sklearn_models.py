@@ -21,3 +21,4 @@ def create_sklearn_models(y_dim):
         models["Random Forest"] = rf
         models["KNN"] = knn
     return models
+
