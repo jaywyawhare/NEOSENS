@@ -2,7 +2,7 @@ import tensorflow as tf
 from typing import Tuple
 
 
-class CTRNN(tf.keras.layers.AbstractRNNCell):
+class CTRNN(tf.keras.layers.Layer):
     """
     Continuous-Time Recurrent Neural Network (CTRNN) cell implementation.
     """
