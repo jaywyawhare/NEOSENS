@@ -136,11 +136,11 @@ def run_experiment(
 
     results = {"TF": {}, "SK": {}}
 
-    for name, model_fn in {**tf_models.__dict__, **model_factory.__dict__}.items():
+    for name, model_fn in model_factory.__dict__.items():
         if (
             callable(model_fn)
             and not name.startswith("__")
-            and not inspect.isclass(model_fn)
+            and inspect.isfunction(model_fn)
         ):
             try:
                 print(f"\nEvaluating TF model: {name}")
