@@ -1,7 +1,12 @@
 import numpy as np
+from typing import List
 
 
-def generate_lorenz_data(num_steps=10000, dt=0.01, initial_state=[1.0, 1.0, 1.0]):
+def generate_lorenz_data(
+    num_steps: int = 10000,
+    dt: float = 0.01,
+    initial_state: List[float] = [1.0, 1.0, 1.0],
+) -> np.ndarray:
     """
     Generate Lorenz system data.
 
@@ -27,7 +32,11 @@ def generate_lorenz_data(num_steps=10000, dt=0.01, initial_state=[1.0, 1.0, 1.0]
     return data
 
 
-def generate_rossler_data(num_steps=10000, dt=0.01, initial_state=[1.0, 1.0, 1.0]):
+def generate_rossler_data(
+    num_steps: int = 10000,
+    dt: float = 0.01,
+    initial_state: List[float] = [1.0, 1.0, 1.0],
+) -> np.ndarray:
     """
     Generate Rössler system data.
 
@@ -52,8 +61,13 @@ def generate_rossler_data(num_steps=10000, dt=0.01, initial_state=[1.0, 1.0, 1.0
 
 
 def generate_mackey_glass_data(
-    num_steps=2000, tau=17, n=10, beta=0.2, gamma=0.1, dt=1.0
-):
+    num_steps: int = 2000,
+    tau: int = 17,
+    n: int = 10,
+    beta: float = 0.2,
+    gamma: float = 0.1,
+    dt: float = 1.0,
+) -> np.ndarray:
     """
     Generate Mackey-Glass system data.
 
@@ -77,7 +91,7 @@ def generate_mackey_glass_data(
     return data.reshape(-1, 1)
 
 
-def generate_sine_data(num_steps=2000):
+def generate_sine_data(num_steps: int = 2000) -> np.ndarray:
     """
     Generate sine wave data.
 

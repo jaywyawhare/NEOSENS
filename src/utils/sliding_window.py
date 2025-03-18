@@ -1,7 +1,10 @@
 import numpy as np
+from typing import Tuple
 
 
-def create_sliding_windows(data, window_size, forecast_horizon=1):
+def create_sliding_windows(
+    data: np.ndarray, window_size: int, forecast_horizon: int = 1
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     Create sliding windows for time series data.
 
@@ -11,7 +14,7 @@ def create_sliding_windows(data, window_size, forecast_horizon=1):
         forecast_horizon (int): Steps ahead to forecast.
 
     Returns:
-        tuple: Arrays of input windows (X) and corresponding targets (y).
+        Tuple[np.ndarray, np.ndarray]: Arrays of input windows (X) and corresponding targets (y).
     """
     if len(data) < window_size + forecast_horizon:
         raise ValueError(

@@ -9,9 +9,13 @@ from src.data.datasets import (
 )
 from src.utils.noise import add_complex_noise
 from src.models import model_factory
+from typing import Dict
 
 
-def main():
+def main() -> None:
+    """
+    Main function to run experiments on various datasets.
+    """
     window_size = 50
     forecast_horizon = 1
     noise_level = 0.1

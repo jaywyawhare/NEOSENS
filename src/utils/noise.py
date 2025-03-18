@@ -1,6 +1,8 @@
 import numpy as np
+from typing import Union
 
-def add_complex_noise(data, noise_level=0.05):
+
+def add_complex_noise(data: np.ndarray, noise_level: float = 0.05) -> np.ndarray:
     """
     Add complex noise (Gaussian, Laplacian, and AR) to the data.
 

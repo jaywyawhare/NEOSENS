@@ -3,8 +3,21 @@ from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.multioutput import MultiOutputRegressor
+from typing import Dict, Union
 
-def create_sklearn_models(y_dim):
+
+def create_sklearn_models(
+    y_dim: int,
+) -> Dict[str, Union[LinearRegression, MultiOutputRegressor]]:
+    """
+    Create a dictionary of sklearn models.
+
+    Args:
+        y_dim (int): Output dimension of the target variable.
+
+    Returns:
+        Dict[str, Union[LinearRegression, MultiOutputRegressor]]: Dictionary of models.
+    """
     models = {}
     lr = LinearRegression()
     svr = SVR()
@@ -21,4 +34,3 @@ def create_sklearn_models(y_dim):
         models["Random Forest"] = rf
         models["KNN"] = knn
     return models
-
